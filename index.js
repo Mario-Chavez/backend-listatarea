@@ -21,4 +21,5 @@ app.use(express.json()); //permite interpretar el formato json
 app.use(express.urlencoded({ extended: true })); //permite en el objeto requiest string o array
 app.use(morgan("dev")); // nos da informacion extra en la terminal
 
+// llamamos a las rutas y estas a su vez a los controllers
 app.use("/apitarea", tareasRouter);
