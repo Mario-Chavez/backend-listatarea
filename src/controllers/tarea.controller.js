@@ -1,7 +1,6 @@
 import Tarea from "../models/tareas";
 
 export const obtenerTareas = async (req, res) => {
-    console.log("entre primero");
     try {
         const tareas = await Tarea.find();
         res.status(200).json(tareas);
