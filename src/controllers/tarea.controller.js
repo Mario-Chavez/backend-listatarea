@@ -1,5 +1,6 @@
 import Tarea from "../models/tareas";
 
+// GET all tasks
 export const obtenerTareas = async (req, res) => {
     try {
         const tareas = await Tarea.find();
@@ -11,6 +12,7 @@ export const obtenerTareas = async (req, res) => {
         });
     }
 };
+// Post create task
 export const crearTareas = async (req, res) => {
     try {
         const tareaNueva = new Tarea(req.body);
@@ -25,13 +27,12 @@ export const crearTareas = async (req, res) => {
         });
     }
 };
-export const obtenerTareaPorTitulo = async (req, res) => {
+// GET find for id
+export const obtenerTareaPorId = async (req, res) => {
     try {
-        const { title } = req.query; // Obtén el títle de la tarea de los parámetros de la query
-        const tarea = await Tarea.findOne({ title: title });
-        if (!tarea) {
-            return res.status(404).json({ mensaje: "Tarea no encontrada" });
-        }
+        const { id } = req.params;
+        const tarea = await Tarea.findById(id);
+
         res.status(200).json(tarea);
     } catch (error) {
         console.log(error);
@@ -40,20 +41,33 @@ export const obtenerTareaPorTitulo = async (req, res) => {
         });
     }
 };
+
+// DELETE
 export const eliminarTareaPorId = async (req, res) => {
     try {
-        const { id } = req.query; // Obtén el ID de la tarea de los parámetros de la solicitud
-        const resultado = await Tarea.deleteOne({ _id: id });
-
-        if (resultado.deletedCount === 0) {
-            return res.status(404).json({ mensaje: "Tarea no encontrada" });
-        }
+        const { id } = req.params; // Obtén el ID de la tarea de los parámetros de la solicitud
+        await Tarea.findByIdAndDelete(id);
 
         res.status(200).json({ mensaje: "Tarea eliminada correctamente" });
     } catch (error) {
         console.log(error);
-        res.status(500).json({
+        res.status(404).json({
             mensaje: "Error al eliminar la tarea desde el controlador",
+        });
+    }
+};
+
+// PUT update
+export const editTareaPorId = async (req, res) => {
+    try {
+        const { id } = req.params; // Obtén el ID de la tarea de los parámetros de la solicitud
+        await Tarea.findByIdAndUpdate(id, req.body); // despues de pasarle la el id le debemos pasar el body para editar
+
+        res.status(200).json({ mensaje: "Tarea editada correctamente" });
+    } catch (error) {
+        console.log(error);
+        res.status(404).json({
+            mensaje: "Error al editar la tarea desde el controlador",
         });
     }
 };
