@@ -60,8 +60,8 @@ export const eliminarTareaPorId = async (req, res) => {
 // PUT update
 export const editTareaPorId = async (req, res) => {
     try {
-        const { id } = req.params; // Obtén el ID de la tarea de los parámetros de la solicitud
-        await Tarea.findByIdAndUpdate(id, req.body); // despues de pasarle la el id le debemos pasar el body para editar
+        const { id } = req.params;
+        await Tarea.findByIdAndUpdate(id, req.body);
 
         res.status(200).json({ mensaje: "Tarea editada correctamente" });
     } catch (error) {
